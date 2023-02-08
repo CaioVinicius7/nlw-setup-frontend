@@ -1,3 +1,4 @@
+import { FormEvent, useState } from "react";
 import { Check } from "phosphor-react";
 
 import { Checkbox } from "./Checkbox";
@@ -13,8 +14,29 @@ const availableWeekDays = [
 ];
 
 export function NewHabitForm() {
+	const [title, setTitle] = useState("");
+	const [weekDays, setWeekDays] = useState<number[]>([]);
+
+	function createNewHabit(event: FormEvent) {
+		event.preventDefault();
+
+		console.log(title, weekDays);
+	}
+
+	function handleToggleWeekDay(weekDay: number) {
+		if (weekDays.includes(weekDay)) {
+			const weekDayWithRemovedOne = weekDays.filter((day) => day !== weekDay);
+
+			setWeekDays(weekDayWithRemovedOne);
+		} else {
+			const weekDaysWithAddedOne = [...weekDays, weekDay];
+
+			setWeekDays(weekDaysWithAddedOne);
+		}
+	}
+
 	return (
-		<form className="w-full flex flex-col mt-6">
+		<form onSubmit={createNewHabit} className="w-full flex flex-col mt-6">
 			<label htmlFor="title" className="font-semibold leading-tight">
 				Qual seu comprometimento?
 			</label>
@@ -24,6 +46,7 @@ export function NewHabitForm() {
 				type="text"
 				id="title"
 				placeholder="ex.: exercícios, dormir bem, etc..."
+				onChange={(e) => setTitle(e.target.value)}
 				autoFocus
 			/>
 
@@ -32,8 +55,13 @@ export function NewHabitForm() {
 			</label>
 
 			<div className="flex flex-col gap-2 mt-3">
-				{availableWeekDays.map((weekDay) => (
-					<Checkbox key={weekDay} title={weekDay} variant="modal" />
+				{availableWeekDays.map((weekDay, index) => (
+					<Checkbox
+						key={weekDay}
+						title={weekDay}
+						variant="modal"
+						onCheckedChange={() => handleToggleWeekDay(index)}
+					/>
 				))}
 			</div>
 
