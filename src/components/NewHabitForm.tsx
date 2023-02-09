@@ -31,6 +31,9 @@ export function NewHabitForm() {
 			weekDays
 		});
 
+		setTitle("");
+		setWeekDays([]);
+
 		alert("Hábito criado com sucesso!");
 	}
 
@@ -61,6 +64,7 @@ export function NewHabitForm() {
 				type="text"
 				id="title"
 				placeholder="ex.: exercícios, dormir bem, etc..."
+				value={title}
 				onChange={(e) => setTitle(e.target.value)}
 				autoFocus
 			/>
@@ -75,6 +79,7 @@ export function NewHabitForm() {
 						key={weekDay}
 						title={weekDay}
 						variant="modal"
+						checked={weekDays.includes(index)}
 						onCheckedChange={() => handleToggleWeekDay(index)}
 					/>
 				))}
