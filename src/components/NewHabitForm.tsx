@@ -3,6 +3,8 @@ import { Check } from "phosphor-react";
 
 import { Checkbox } from "./Checkbox";
 
+import { api } from "../lib/axios";
+
 const availableWeekDays = [
 	"Domingo",
 	"Segunda-feira",
@@ -17,21 +19,34 @@ export function NewHabitForm() {
 	const [title, setTitle] = useState("");
 	const [weekDays, setWeekDays] = useState<number[]>([]);
 
-	function createNewHabit(event: FormEvent) {
+	async function createNewHabit(event: FormEvent) {
 		event.preventDefault();
 
-		console.log(title, weekDays);
+		if (!title || !weekDays.length) {
+			return;
+		}
+
+		await api.post("/habits", {
+			title,
+			weekDays
+		});
+
+		alert("Hábito criado com sucesso!");
 	}
 
 	function handleToggleWeekDay(weekDay: number) {
-		if (weekDays.includes(weekDay)) {
-			const weekDayWithRemovedOne = weekDays.filter((day) => day !== weekDay);
+		try {
+			if (weekDays.includes(weekDay)) {
+				const weekDayWithRemovedOne = weekDays.filter((day) => day !== weekDay);
 
-			setWeekDays(weekDayWithRemovedOne);
-		} else {
-			const weekDaysWithAddedOne = [...weekDays, weekDay];
+				setWeekDays(weekDayWithRemovedOne);
+			} else {
+				const weekDaysWithAddedOne = [...weekDays, weekDay];
 
-			setWeekDays(weekDaysWithAddedOne);
+				setWeekDays(weekDaysWithAddedOne);
+			}
+		} catch (error) {
+			console.log(error);
 		}
 	}
 
