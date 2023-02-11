@@ -31,6 +31,28 @@ export function HabitsList({ date }: HabitsListProps) {
 		setHabitsInfo(data);
 	}
 
+	async function handleToggleHabit(habitId: string) {
+		await api.patch(`/habits/${habitId}/toggle`);
+
+		const isHabitAlreadyCompleted =
+			habitsInfo?.completedHabits.includes(habitId);
+
+		let completedHabits: string[] = [];
+
+		if (isHabitAlreadyCompleted) {
+			completedHabits = habitsInfo!.completedHabits.filter((id) => {
+				return id !== habitId;
+			});
+		} else {
+			completedHabits = [...habitsInfo!.completedHabits, habitId];
+		}
+
+		setHabitsInfo({
+			possibleHabits: habitsInfo!.possibleHabits,
+			completedHabits
+		});
+	}
+
 	const isDateInPast = dayjs(date).endOf("day").isBefore(new Date());
 
 	useEffect(() => {
@@ -46,6 +68,7 @@ export function HabitsList({ date }: HabitsListProps) {
 					<Checkbox
 						key={habit.id}
 						title={habit.title}
+						onCheckedChange={() => handleToggleHabit(habit.id)}
 						defaultChecked={habitIsCompleted}
 						disabled={isDateInPast}
 						variant="popover"
