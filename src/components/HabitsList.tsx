@@ -35,7 +35,7 @@ export function HabitsList({ date }: HabitsListProps) {
 
 	useEffect(() => {
 		fetchHabits();
-	});
+	}, []);
 
 	return (
 		<div className="mt-6 flex flex-col gap-3">
