@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import dayjs from "dayjs";
 
 import { Checkbox } from "./Checkbox";
 
@@ -30,6 +31,8 @@ export function HabitsList({ date }: HabitsListProps) {
 		setHabitsInfo(data);
 	}
 
+	const isDateInPast = dayjs(date).endOf("day").isBefore(new Date());
+
 	useEffect(() => {
 		fetchHabits();
 	});
@@ -43,7 +46,8 @@ export function HabitsList({ date }: HabitsListProps) {
 					<Checkbox
 						key={habit.id}
 						title={habit.title}
-						checked={habitIsCompleted}
+						defaultChecked={habitIsCompleted}
+						disabled={isDateInPast}
 						variant="popover"
 					/>
 				);
