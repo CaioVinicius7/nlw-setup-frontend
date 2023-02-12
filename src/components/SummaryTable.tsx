@@ -39,7 +39,7 @@ export function SummaryTable() {
 	}, []);
 
 	return (
-		<div className="w-full flex">
+		<div className="w-full flex scrollbar-thin scrollbar-thumb-zinc-800 scrollbar-track-zinc-900-thumb-gray-900 scrollbar-track-zinc-900">
 			<div className="grid grid-rows-7 grid-flow-row">
 				{weekDays.map((weekDay, i) => (
 					<div
