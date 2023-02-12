@@ -17,9 +17,14 @@ interface HabitsInfo {
 interface HabitsListProps {
 	date: Date;
 	onCompletedChanged: (completed: number) => void;
+	onAmountChanged: (newAmount: number) => void;
 }
 
-export function HabitsList({ date, onCompletedChanged }: HabitsListProps) {
+export function HabitsList({
+	date,
+	onCompletedChanged,
+	onAmountChanged
+}: HabitsListProps) {
 	const [habitsInfo, setHabitsInfo] = useState<HabitsInfo>();
 
 	async function fetchHabits() {
@@ -30,6 +35,7 @@ export function HabitsList({ date, onCompletedChanged }: HabitsListProps) {
 		});
 
 		setHabitsInfo(data);
+		onAmountChanged(data.possibleHabits.length);
 	}
 
 	async function handleToggleHabit(habitId: string) {

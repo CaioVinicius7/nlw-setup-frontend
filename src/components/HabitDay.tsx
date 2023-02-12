@@ -9,15 +9,16 @@ import { ProgressBar } from "./ProgressBar";
 interface HabitDayProps {
 	date: Date;
 	defaultCompleted?: number;
-	amount?: number;
+	defaultAmount?: number;
 }
 
 export function HabitDay({
 	date,
 	defaultCompleted = 0,
-	amount = 0
+	defaultAmount = 0
 }: HabitDayProps) {
 	const [completed, setCompleted] = useState(defaultCompleted);
+	const [amount, setAmount] = useState(defaultAmount);
 
 	const completedPercentage =
 		amount > 0 ? Math.round((completed / amount) * 100) : 0;
@@ -27,6 +28,12 @@ export function HabitDay({
 
 	function handleCompletedChanged(completed: number) {
 		setCompleted(completed);
+	}
+
+	function handleAmountChanged(newAmount: number) {
+		if (newAmount > amount) {
+			setAmount(newAmount);
+		}
 	}
 
 	return (
@@ -58,7 +65,11 @@ export function HabitDay({
 
 					<ProgressBar progress={completedPercentage} />
 
-					<HabitsList date={date} onCompletedChanged={handleCompletedChanged} />
+					<HabitsList
+						date={date}
+						onCompletedChanged={handleCompletedChanged}
+						onAmountChanged={handleAmountChanged}
+					/>
 
 					<Popover.Arrow height={8} width={16} className="fill-zinc-900" />
 				</Popover.Content>
