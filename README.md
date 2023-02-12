@@ -1,5 +1,5 @@
 <h1 align="center"> 
-	NLW setup - Web
+	NLW Setup - Web
 </h1>
 
 ## 💭 O que é e qual a ideia do projeto?
